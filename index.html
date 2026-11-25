@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Holiday Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style id="css">
+/* VOICE everyday learning, encouraging, clear working parts
+   IDEA a trail map: ten stations on one route, each filling as it is completed
+   PICTURE the route of 11 stops across a cobalt band, rings fill with sunflower as tasks are ticked
+   COLOUR white ground, cobalt band, sunflower for done, ink navy
+   TYPE Archivo 800 display + Inter text
+   LAYOUT title and overall progress over the full-width trail; one calm column of topics below; phone stacks title, trail, week */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f1324);--ink:light-dark(#14172b,#eef0fa);--mute:light-dark(#525873,#a9afca);--band:light-dark(#2747d6,#17246b);--sun:#ffc21a;--line:light-dark(#dde2f0,#2a3152);--soft:light-dark(#f3f5fc,#161b31);--link:light-dark(#2747d6,#9db0ff)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,Inter,sans-serif;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance}
+a{color:var(--link)}
+button{font:600 15px Inter,system-ui,sans-serif;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.band{padding-block:clamp(24px,4vw,56px);padding-left:max(5vw,16px);padding-right:max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+.top{background:var(--band);color:#fff;padding-bottom:20px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px 48px;align-items:end}
+h1{font-size:clamp(34px,5vw,52px)}
+.lede{margin:12px 0 0;max-width:60ch;color:#e3e8ff}
+.sum{min-width:220px}
+.big{font:800 clamp(40px,5vw,56px)/1 Archivo,sans-serif}
+.sum p{margin:6px 0 0;color:#e3e8ff}
+.bar{height:10px;border-radius:5px;background:rgba(127,140,190,.28);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--sun);border-radius:5px;transition:width .4s}
+.top .bar{background:rgba(255,255,255,.22)}
+.save{font-size:14px}
+.trail{overflow-x:auto;margin-top:28px;padding-bottom:6px}
+.trail ol{list-style:none;margin:0;padding:0;display:flex;max-width:1240px;margin-inline:auto}
+.trail li{flex:1 0 100px;position:relative;text-align:center}
+.trail li+li::before{content:"";position:absolute;top:31px;left:-50%;width:100%;height:4px;background:rgba(255,255,255,.3);z-index:0}
+.trail li.full+li::before,.trail li.full::before{background:var(--sun)}
+.stop{display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;text-decoration:none;padding:0 4px 4px;position:relative;z-index:1}
+.ring{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--sun) calc(var(--p)*1%),rgba(255,255,255,.22) 0)}
+.num{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--band);font:800 20px Archivo,sans-serif}
+.stop.on .ring{box-shadow:0 0 0 4px #fff}
+.stop.on .lbl{font-weight:600;color:#fff}
+.lbl{font-size:13px;line-height:1.3;color:#dfe5ff;max-width:12ch}
+.wk{max-width:900px;margin:0 auto}
+.wn{margin:0 0 8px;color:var(--mute);font-weight:600}
+h2{font-size:clamp(32px,4.4vw,46px)}
+.goal{font-size:17px;margin:14px 0 0;max-width:65ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(12em,1fr));gap:12px 24px;margin:20px 0 0}
+.facts div{border-top:2px solid var(--line);padding-top:8px}
+.facts dt{font-size:13px;color:var(--mute)}
+.facts dd{margin:2px 0 0;font-weight:600}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.btn:hover{border-color:var(--ink)}
+.btn.hot{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.topic{margin-top:32px;padding:24px;border-radius:16px;background:var(--soft);border:1px solid var(--line)}
+.th{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+h3{font-size:24px}
+.pill{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--sun);color:#14172b;white-space:nowrap}
+.why{margin:10px 0 0;max-width:68ch}
+.tasks{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid var(--line)}
+.tasks li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;border-bottom:1px solid var(--line);padding:4px 0}
+.tasks label{flex:1 1 300px;display:flex;gap:14px;align-items:flex-start;padding:10px 0;cursor:pointer}
+.tasks input{appearance:none;flex:none;width:26px;height:26px;margin:0;border:2px solid var(--mute);border-radius:7px;background:var(--bg);display:grid;place-items:center;cursor:pointer}
+.tasks input:checked{background:var(--sun);border-color:var(--sun)}
+.tasks input:checked::after{content:"";width:7px;height:13px;border:solid #14172b;border-width:0 3px 3px 0;transform:translateY(-2px) rotate(45deg)}
+.tasks li.done label span{color:var(--mute)}
+.meta{display:flex;gap:10px;align-items:center;margin-left:40px}
+.cnt{font-size:13px;color:var(--mute);white-space:nowrap}
+.rs{min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px}
+.rs:hover{border-color:var(--ink)}
+.res{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.res a{display:inline-flex;align-items:center;min-height:40px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--link);text-decoration:none;font-size:15px;font-weight:600}
+.res a::after{content:"\2197";margin-left:6px;font-size:13px}
+.res a:hover{background:var(--link);color:var(--bg)}
+.check{margin-top:32px;padding:24px;border-radius:16px;border:2px dashed var(--line)}
+.check ul{margin:12px 0 0;padding-left:20px}
+.check li{margin:6px 0}
+.pn{display:flex;justify-content:space-between;gap:12px;margin-top:32px;flex-wrap:wrap}
+.pn a{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:12px;background:var(--band);color:#fff;text-decoration:none;font-weight:600}
+.pn a.next{margin-left:auto}
+.foot{border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot p{margin:0;max-width:70ch}
+.mv{margin-top:20px}
+.mvl{flex:1 1 100%;font-weight:600;color:var(--ink)}
+.mvt{flex:1 1 100%;font:14px/1.4 ui-monospace,monospace;padding:10px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);overflow-wrap:anywhere}
+.mvm{margin-top:10px;color:var(--ink)}
+@media(max-width:700px){.head{grid-template-columns:1fr}.sum{min-width:0}.meta{margin-left:40px}.topic{padding:18px}}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script id="code">
+{
+const R={
+AA:["Anthropic Academy (free courses)","https://anthropic.skilljar.com/"],
+PE:["Prompt engineering guide","https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"],
+CC:["Claude Code docs","https://docs.claude.com/en/docs/claude-code/overview"],
+DOCS:["Claude developer docs","https://docs.claude.com/"],
+CON:["Claude Console (parent signs in)","https://console.anthropic.com/"],
+CL:["Open Claude (parent's account)","https://claude.ai/"],
+HELP:["Claude help centre","https://support.claude.com/"],
+MOD:["Meet the Claude models","https://www.anthropic.com/claude"],
+PY:["Download Python","https://www.python.org/downloads/"],
+VS:["Download VS Code","https://code.visualstudio.com/"],
+PYT:["Official Python tutorial","https://docs.python.org/3/tutorial/"],
+PCC:["Python Crash Course online resources","https://ehmatthes.github.io/pcc_3e/"],
+ATBS:["Automate the Boring Stuff (free online)","https://automatetheboringstuff.com/"],
+GIT:["Learn Git Branching (interactive game)","https://learngitbranching.js.org/"],
+GITD:["Download git","https://git-scm.com/downloads"],
+MCP:["Model Context Protocol","https://modelcontextprotocol.io/"],
+SCI:["Claude Science announcement","https://anthropic.com/news/claude-science-ai-workbench"],
+SCI2:["Claude Science home","https://claude.com/science"],
+BOM:["Bureau of Meteorology climate data","https://www.bom.gov.au/climate/data/"],
+MPL:["Matplotlib tutorials","https://matplotlib.org/stable/tutorials/index.html"],
+HAW:["How AI Works (book)","https://www.penguin.com.au/books/how-ai-works-9781718503724"],
+PLAN:["Parent's plan","https://claude.ai/artifact/75N8wJhwiAQG1RkS24kDtt"]
+};
+const W=[
+{t:"Start here",s:"Start",goal:"Set yourself up so the next ten weeks run smoothly: know the rules, the routine and where everything lives.",hours:"About 1 hour",proj:"",topics:[
+{h:"How this course works",why:"Each week has topics. Each topic explains what you are learning and why, gives you tasks to tick off, and links to everything you need. Tick a task when you finish it. If you want to do it again, press Reset and it goes back to unticked.",tasks:["Read this whole Start page","Click through Weeks 1 to 10 on the trail to see where you are heading","Choose your daily start time and write it down"],res:[R.PLAN]},
+{h:"The rules for using Claude",p:1,why:"Claude accounts are for adults, so you use Claude with your parent's account and with them nearby. Everything else (courses, reading, coding practice) you can do on your own.",tasks:["Agree with your parent which times you can use Claude together","Agree the Claude Code rule: only work inside your project folder, and ask a parent before approving anything that deletes or installs","Agree the privacy rule: never paste in passwords, addresses, phone numbers or other people's private information","Agree the school rule: Claude helps you learn, it does not do your schoolwork for you"],res:[R.HELP]},
+{h:"Your learning journal",why:"Experts keep notes. Your journal is where you save great prompts, mistakes Claude made and how you caught them, and anything that confused you. By Week 10 it becomes your personal playbook.",tasks:["Set up a notebook or document called My Claude Journal","Make three sections: Great prompts, Claude got it wrong, Questions to ask","Write your first entry: what do you hope to build by the end of the holidays?"],res:[]}
+],check:["Which parts of the course do you need a parent for?","What will you write in your journal each day?"]},
+{t:"How AI and Claude work",s:"How AI works",goal:"Understand what a large language model is, how it learns, and why it can sound confident but still be wrong.",hours:"About 10 hours",proj:"A poster explaining how a chatbot predicts words",topics:[
+{h:"What is a large language model?",why:"Claude is a large language model (LLM). It learned patterns from huge amounts of text, and it writes by predicting what words should come next, over and over. Knowing this explains almost everything about how it behaves.",tasks:["With your parent, enrol in the free AI Fluency: Framework & Foundations course using their email","Complete the first module of AI Fluency","Read chapter 1 of How AI Works","In your journal, explain in three sentences what an LLM does, as if to a 9-year-old"],res:[R.AA,R.HAW]},
+{h:"Training, tokens and mistakes",why:"A model is trained once on lots of data, then used many times. It reads and writes in tokens, which are chunks of words. Because it predicts likely words rather than looking facts up, it can make up answers that sound right. This is called hallucination.",tasks:["Read chapters 6 and 7 of How AI Works","Write a sentence and guess how it might be split into tokens","Explain the difference between training and using a model to your parent","Write down three reasons an AI might give a wrong answer"],res:[R.HAW,R.AA]},
+{h:"Meet the Claude family",p:1,why:"Claude comes in different sizes (Haiku is fast, Sonnet is balanced, Opus is the most capable) and is used through different products: the Claude app for chatting and making things, Claude Code for programming, and Claude Science for researchers.",tasks:["Read the Meet the Claude models page and note what each model size is good for","Make a table in your journal: product, what it does, who it is for (Claude app, Claude Code, Claude Science)","With your parent, ask Claude five questions about a topic you know really well","Grade each answer out of 10 and note any mistakes in your journal"],res:[R.MOD,R.CL]},
+{h:"Friday project: the prediction poster",why:"Teaching something is the best test of whether you understand it.",tasks:["Draw a poster showing how a chatbot predicts the next word, step by step","Present your poster to the family in under 5 minutes","Finish the rest of the AI Fluency modules you have started"],res:[R.AA]}
+],check:["Why can an AI sound confident and still be wrong?","What is a token?","When would you choose Haiku instead of Opus?"]},
+{t:"Prompting well",s:"Prompting",goal:"Write clear, structured prompts and explain why they work better than lazy ones.",hours:"About 10 hours",proj:"A before-and-after collection of 10 prompts",topics:[
+{h:"Claude 101",why:"Anthropic's own beginner course shows the main features and good habits. It takes about two hours.",tasks:["Complete the Claude 101 course on Anthropic Academy","Write the three most useful things you learned in your journal"],res:[R.AA]},
+{h:"Be clear, specific and give context",p:1,why:"Claude can't read your mind. The more it knows about your goal, your audience and what good looks like, the better the answer. Giving it a role (for example, you are a patient maths tutor) also helps.",tasks:["Read the Be clear and direct part of the prompt engineering guide","Write a vague prompt, then rewrite it with the goal, audience and length spelled out","Try both with your parent and compare the answers","Try the same prompt with and without a role and note the difference"],res:[R.PE,R.CL]},
+{h:"Examples, formats and steps",p:1,why:"Showing Claude an example of what you want, asking for a specific format (a table, a list, a quiz), and splitting big jobs into steps are some of the most powerful tricks experts use.",tasks:["Read the guide's sections on examples and on letting Claude think step by step","Get Claude to make a quiz by giving it one example question to copy","Ask for the same information as a paragraph, then as a table","Ask Claude to check its own answer for mistakes and see what it finds"],res:[R.PE,R.CL]},
+{h:"Daily prompt challenge",p:1,why:"Practice turns tricks into habits.",tasks:["Monday to Thursday: write one lazy prompt and one improved prompt each day","Save all pairs in the Great prompts section of your journal","Friday: present your best 10 before-and-after pairs and explain what changed"],res:[R.PE]}
+],check:["Name four ways to improve a prompt.","Why does an example help Claude so much?"]},
+{t:"Claude's features, limits and safety",s:"Features & safety",goal:"Use Claude's main features confidently, know its limits, and use it safely and honestly.",hours:"About 10 hours",proj:"A Project-based study helper and a fact-check challenge",topics:[
+{h:"Projects and files",p:1,why:"A Project keeps files and instructions together, so Claude remembers the background every time you chat in it. It's perfect for a study helper.",tasks:["Read the help centre article on Projects","With your parent, create a Project called Holiday study helper","Add some class notes or a topic summary to it","Ask Claude in the Project to quiz you on the notes"],res:[R.HELP,R.CL]},
+{h:"Artifacts, research and voice",p:1,why:"Claude can make things you keep (documents, small apps, diagrams), search the web for current information, and talk with you by voice.",tasks:["Ask Claude to make a simple interactive flashcard page","Use web search to answer a question about something that happened this month","Try one conversation in voice mode","Write in your journal which feature surprised you most"],res:[R.HELP,R.CL]},
+{h:"Catch Claude out",p:1,why:"Every AI makes mistakes. Experts always check important facts against a reliable source.",tasks:["Pick a topic you're an expert in (a sport, game or hobby)","Ask Claude 10 detailed questions about it","Check each answer against a trusted website and count the errors","Write the mistakes in the Claude got it wrong section of your journal"],res:[R.CL]},
+{h:"Safety and ethics",why:"Anthropic designs Claude to be helpful, honest and harmless. You have a part to play too: protect your privacy and use AI honestly at school.",tasks:["Write your own five rules for using AI safely and honestly","Discuss your rules with your parent and agree on them","Finish the AI Fluency course and get your certificate"],res:[R.AA]}
+],check:["What is a Project and why is it useful?","How do you check if Claude is right?","What should you never paste into an AI?"]},
+{t:"Python basics, part 1",s:"Python 1",goal:"Write simple Python programs on your own, so you can understand code that Claude writes later.",hours:"About 10 hours",proj:"A text adventure game",topics:[
+{h:"Set up your computer",why:"You need Python (the language) and VS Code (the editor where you write code).",tasks:["With your parent, install Python on your user login","Install VS Code and its Python extension","Write and run a program that prints Hello from me"],res:[R.PY,R.VS,R.PCC]},
+{h:"Variables and strings",why:"Variables store information, and strings are pieces of text. Every program uses both.",tasks:["Read Python Crash Course chapters 1 and 2","Do every Try It Yourself exercise in chapter 2","Make a program that asks for your name and prints a custom greeting"],res:[R.PCC,R.PYT]},
+{h:"Lists, loops and if statements",why:"Lists hold many items, loops repeat actions, and if statements make decisions. Together they let programs do real work.",tasks:["Read chapters 3 and 4 (lists and loops)","Read chapter 5 (if statements)","Do the Try It Yourself exercises for chapters 3 to 5"],res:[R.PCC,R.PYT]},
+{h:"Claude as tutor, not ghostwriter",p:1,why:"You learn by struggling a bit. Ask Claude to explain errors and give hints, not to write the answer.",tasks:["When you get stuck, ask Claude: explain this error but don't fix it for me","Ask Claude for a hint on one exercise instead of the solution","Note in your journal one error you fixed yourself"],res:[R.CL]},
+{h:"Friday project: text adventure",why:"Put it all together in a game you can show off.",tasks:["Plan a text adventure with at least five rooms on paper","Build it in Python using variables, lists, loops and if statements","Get a family member to play it and fix any bugs they find"],res:[R.PCC]}
+],check:["What is the difference between a list and a string?","How does a for loop work?"]},
+{t:"Python part 2 and the terminal",s:"Python 2",goal:"Use functions, dictionaries and files, and get comfortable in the terminal, where Claude Code lives.",hours:"About 10 hours",proj:"A quiz game that saves high scores",topics:[
+{h:"Dictionaries and user input",why:"Dictionaries store information in pairs (like a word and its meaning). Input lets your program talk to the user.",tasks:["Read chapters 6 and 7 of Python Crash Course","Do the Try It Yourself exercises for chapters 6 and 7"],res:[R.PCC]},
+{h:"Functions, files and errors",why:"Functions let you reuse code. Files let programs remember things. Exceptions let programs handle errors without crashing.",tasks:["Read chapter 8 (functions)","Skim chapter 9 (classes); it's fine not to understand it all yet","Read chapter 10 (files and exceptions)","Do three Try It Yourself exercises from chapter 10"],res:[R.PCC,R.ATBS]},
+{h:"The terminal",why:"The terminal is a text window where you type commands. Claude Code runs there, so you need the basics.",tasks:["Learn these commands: cd, ls (or dir), mkdir, pwd, and how to run python","Create a folder called claude-projects using only the terminal","Run one of your Python programs from the terminal"],res:[R.ATBS]},
+{h:"Git: your undo button",why:"Git saves snapshots of your code called commits. If Claude Code (or you) breaks something, you can go back.",tasks:["Install git with your parent","Play the first four levels of Learn Git Branching","Make your first commit in your claude-projects folder"],res:[R.GITD,R.GIT]},
+{h:"Friday project: quiz game",why:"A real program that remembers things between runs.",tasks:["Build a quiz game with questions stored in a dictionary","Save high scores to a file so they survive closing the program","Commit your finished game with git"],res:[R.PCC]}
+],check:["Why are functions useful?","What does a git commit do?"]},
+{t:"Claude Code foundations",s:"Claude Code 1",goal:"Use Claude Code safely to build a small project, and understand every file it creates.",hours:"About 10 hours",proj:"A website about your favourite hobby",topics:[
+{h:"Claude Code 101",why:"Claude Code is an AI that can read, write and run code on your computer. This free course teaches the basics.",tasks:["Complete Claude Code 101 on Anthropic Academy","Write in your journal how Claude Code is different from chatting with Claude"],res:[R.AA,R.CC]},
+{h:"Install and sign in",p:1,why:"Claude Code uses your parent's Pro account, so do this together.",tasks:["Follow the official docs to install Claude Code with your parent","Sign in using your parent's account","Start Claude Code inside your claude-projects folder and ask it what it can do"],res:[R.CC]},
+{h:"The core loop and permissions",p:1,why:"Experts work in a loop: describe the goal, read Claude's plan, approve each step, test, then commit. Claude Code asks permission before risky actions. Read every request before you approve it.",tasks:["Read the Claude Code docs section about permissions","Practise the loop on a tiny task: make a program that prints a random joke","Commit the result with git","Remember the rule: ask a parent before approving any delete or install"],res:[R.CC]},
+{h:"Friday project: hobby website",p:1,why:"Build something real, then make sure you understand it.",tasks:["Ask Claude Code to plan a three-page website about your hobby","Build it step by step, committing after each page","Ask Claude Code to explain every file it made, and write a one-line summary of each","Show the site to your family"],res:[R.CC]}
+],check:["What are the four steps of the core loop?","Why should you read permission requests carefully?"]},
+{t:"Claude Code like a pro",s:"Claude Code 2",goal:"Use the techniques professional developers use: project memory, planning, tests and debugging.",hours:"About 10 hours",proj:"A browser game with a CLAUDE.md file and clean git history",topics:[
+{h:"Claude Code in Action",why:"Anthropic's more advanced Claude Code course. It's aimed at professionals, so take your time and skip what doesn't make sense yet.",tasks:["Work through Claude Code in Action on Anthropic Academy","Note the three ideas you want to try this week"],res:[R.AA]},
+{h:"CLAUDE.md and plan mode",p:1,why:"A CLAUDE.md file is project memory: rules and background Claude Code reads every time. Plan mode makes Claude think through a plan before touching any files.",tasks:["Read about CLAUDE.md in the Claude Code docs","Write a CLAUDE.md for your game project with at least five rules","Use plan mode to plan the game before any code is written"],res:[R.CC]},
+{h:"Slash commands and skills",p:1,why:"Slash commands are shortcuts inside Claude Code. Skills package up instructions Claude can reuse.",tasks:["Type / in Claude Code and try three different commands","Read about skills in the docs and write down one skill you'd find useful"],res:[R.CC]},
+{h:"Tests and debugging",p:1,why:"Tests are small programs that check your code works. Debugging is finding out why it doesn't.",tasks:["Ask Claude Code to write tests for one part of your game","Break your game on purpose, then ask Claude Code to find the bug without telling it where","Write the debugging story in your journal"],res:[R.CC]},
+{h:"Friday project: browser game",p:1,why:"Snake, breakout or a clicker game: you choose.",tasks:["Build your game feature by feature, committing after each one","Check the git log shows a clear history of your work","Demo the game to the family and explain one bug you fixed"],res:[R.CC,R.GIT]}
+],check:["What goes in a CLAUDE.md file?","Why plan before coding?","What does a test do?"]},
+{t:"The Claude API and agents",s:"API & agents",goal:"Write your own Python program that talks to Claude, and understand tools, MCP and agents.",hours:"About 10 hours",proj:"A Python chatbot with its own personality",topics:[
+{h:"Building with the Claude API",why:"The API lets your programs send messages to Claude and get answers back. That's how apps are built on Claude.",tasks:["Work through the Building with the Claude API course, skipping the advanced sections","Write in your journal what a request and a response are"],res:[R.AA,R.DOCS]},
+{h:"Your API key, kept safe",p:1,why:"An API key is like a password that costs money when used. Your parent creates it, sets a spending limit, and stores it safely on the computer.",tasks:["Watch your parent create an API key and set a low spend limit in the Console","Learn how the key is stored as an environment variable, never inside your code","Never paste the key into chats, files you share, or git"],res:[R.CON]},
+{h:"Your first API program",p:1,why:"A few lines of Python can send a message to Claude and print the reply.",tasks:["Follow the docs quickstart to send your first message from Python","Add a system prompt to give your chatbot a personality","Make it remember the conversation by keeping a list of messages","Add a way to type quit to end the chat"],res:[R.DOCS]},
+{h:"Tools, MCP and agents",why:"Tools let Claude do things (search, calculate, look things up). MCP is a standard way to connect Claude to other apps. An agent is Claude working in a loop, using tools until a task is finished.",tasks:["Read the introduction on the MCP website","In your journal, explain the difference between a chatbot and an agent","Optional: start the Introduction to MCP course on Anthropic Academy"],res:[R.MCP,R.AA]}
+],check:["Why is an API key kept secret?","What does a system prompt do?","What makes something an agent?"]},
+{t:"Claude Science and data",s:"Science & data",goal:"Understand how scientists use Claude, and run your own small data investigation.",hours:"About 10 hours",proj:"A mini science investigation with charts",topics:[
+{h:"What is Claude Science?",why:"Claude Science is a workbench for researchers. It connects Claude to over 60 scientific databases and tools so scientists can analyse data, check sources and write up results in one place. It is still in beta.",tasks:["Read the Claude Science announcement with your parent","Write down three things scientists use it for","Explain in your journal how it differs from the normal Claude app"],res:[R.SCI,R.SCI2]},
+{h:"Try it (or use Claude Code)",p:1,why:"If Claude Science is available on your parent's plan, explore it together. If not, you can do the same investigation with Claude Code and Python.",tasks:["With your parent, check whether Claude Science is available on the account","Explore it for 30 minutes, or set up a new Claude Code project instead"],res:[R.SCI2,R.CC]},
+{h:"Your investigation",p:1,why:"Real science starts with a question, gets data, analyses it and reports honestly.",tasks:["Choose a question, for example: has Brisbane got hotter since 1950?","Download real data (for example from the Bureau of Meteorology)","Analyse it with Python and make at least two charts","Write a one-page report: question, method, results, conclusion"],res:[R.BOM,R.MPL]},
+{h:"Check like a scientist",why:"Scientists never trust a result they haven't checked.",tasks:["Check three of Claude's numbers by hand or with a calculator","Check that every source Claude used really says what it claimed","Add a Limitations paragraph to your report"],res:[]}
+],check:["Who is Claude Science for?","Why check numbers by hand?"]},
+{t:"Capstone and showcase",s:"Capstone",goal:"Plan, build and present a project of your own choice using everything you've learned.",hours:"About 10 hours",proj:"Your own project, presented to the family",topics:[
+{h:"Monday: plan",p:1,why:"Good projects start on paper. Ideas: a revision quiz app using the API, a website for a family member's hobby, a chatbot for your friends' favourite game, or a data project about something you love.",tasks:["Choose your project idea","Write a one-page plan with Claude's help: goal, features and a stretch goal","Get your parent's OK on the plan"],res:[R.CL]},
+{h:"Tuesday to Thursday: build",p:1,why:"Use the professional workflow from Weeks 6 and 7.",tasks:["Write a CLAUDE.md for the project","Build feature by feature, committing after each one","Keep your journal going each day","Finish at least the main goal; try the stretch goal if there is time"],res:[R.CC]},
+{h:"Friday: showcase",why:"Show off what you've learned.",tasks:["Prepare a 10-minute presentation: demo, a bug you fixed, something Claude got wrong, what you'd learn next","Present to the family","Write a final journal entry: what you know now that you didn't 10 weeks ago"],res:[]},
+{h:"What's next",why:"Learning doesn't stop here.",tasks:["Pick your next course: Introduction to Agent Skills or Introduction to MCP","Look for a coding club or competition at school"],res:[R.AA]}
+],check:["What was the hardest bug you fixed?","What would you build next?"]}
+];
+const KEY="claude-holiday-course-v1";
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+let S={done:{},count:{}},canSave=true;
+try{const l=JSON.parse(localStorage.getItem(KEY)||"null");if(l&&typeof l==="object")S={done:l.done||{},count:l.count||{}}}catch(e){canSave=false}
+let ask=null,move=null,moveMsg="",saveMsg=canSave?"Progress is saved in this browser on this device.":"This browser can't save progress (private window?). Use Copy my progress before closing.";
+const id=(w,t,i)=>w+"-"+t+"-"+i;
+const keys=w=>{const a=[];W[w].topics.forEach((tp,t)=>tp.tasks.forEach((x,i)=>a.push(id(w,t,i))));return a};
+const ALL=W.map((x,w)=>keys(w));
+const doneIn=w=>ALL[w].filter(k=>S.done[k]).length;
+const parse=()=>{const h=location.hash.slice(1);if(h==="start")return 0;const m=/^week-(\d+)$/.exec(h);if(m){const n=+m[1];if(n>=1&&n<W.length)return n}return null};
+let cur=parse();
+if(cur===null){cur=ALL.findIndex(a=>a.some(k=>!S.done[k]));if(cur<0)cur=W.length-1}
+const href=w=>"#"+(w===0?"start":"week-"+w);
+function head(){
+const tot=ALL.reduce((n,a)=>n+a.length,0),d=ALL.reduce((n,a,w)=>n+doneIn(w),0),pct=Math.round(d/tot*100);
+const stops=W.map((wk,w)=>{const p=Math.round(doneIn(w)/ALL[w].length*100);return '<li class="'+(p===100?"full":"")+'"><a class="stop'+(w===cur?" on":"")+'" href="'+href(w)+'" style="--p:'+p+'" aria-label="'+esc((w?"Week "+w+": ":"")+wk.t+", "+p+"% done")+'"'+(w===cur?' aria-current="step"':"")+'><span class="ring"><span class="num">'+(w?w:"S")+'</span></span><span class="lbl">'+esc(wk.s)+'</span></a></li>'}).join("");
+return '<header class="band top"><div class="wrap head"><div><h1>Claude Holiday Course</h1><p class="lede">Ten weeks from beginner to confident builder. Pick a stop on the trail, work through each topic, and tick off tasks as you finish them.</p></div><div class="sum" aria-live="polite"><div class="big">'+pct+'%</div><p>'+d+' of '+tot+' tasks done</p><div class="bar"><i style="width:'+pct+'%"></i></div><p class="save" id="save">'+esc(saveMsg)+'</p></div></div><nav class="trail" id="trail" aria-label="Course weeks"><ol>'+stops+'</ol></nav></header>'}
+function week(){
+const wk=W[cur],wd=doneIn(cur),wt=ALL[cur].length,pct=Math.round(wd/wt*100);
+const reset=ask==="week"?'<span>Untick all '+wd+' completed tasks in this '+(cur?"week":"section")+'?</span><button class="btn hot" data-act="yesweek">Yes, reset</button><button class="btn" data-act="no">Cancel</button>':'<button class="btn" data-act="askweek"'+(wd?"":" disabled")+'>Reset this '+(cur?"week":"section")+'</button>';
+const topics=wk.topics.map((tp,t)=>'<section class="topic"><div class="th"><h3>'+esc(tp.h)+'</h3>'+(tp.p?'<span class="pill">With a parent</span>':"")+'</div><p class="why">'+esc(tp.why)+'</p><ul class="tasks">'+tp.tasks.map((x,i)=>{const k=id(cur,t,i),on=!!S.done[k],n=S.count[k]||0;let note="";if(on&&n>1)note="Done "+n+" times";else if(!on&&n>0)note="Reset, done "+n+(n>1?" times":" time")+" before";return '<li class="'+(on?"done":"")+'"><label><input type="checkbox" id="c'+k+'" data-k="'+k+'"'+(on?" checked":"")+'><span>'+esc(x)+'</span></label>'+(note||on?'<span class="meta">'+(note?'<span class="cnt">'+note+'</span>':"")+(on?'<button class="rs" data-reset="'+k+'" aria-label="Reset task: '+esc(x)+'">Reset</button>':"")+'</span>':"")+'</li>'}).join("")+'</ul>'+(tp.res.length?'<div class="res">'+tp.res.map(r=>'<a href="'+esc(r[1])+'" target="_blank" rel="noopener">'+esc(r[0])+'</a>').join("")+'</div>':"")+'</section>').join("");
+const chk=wk.check?'<section class="check"><h3>Can you answer these?</h3><ul>'+wk.check.map(q=>'<li>'+esc(q)+'</li>').join("")+'</ul></section>':"";
+const pn='<nav class="pn">'+(cur>0?'<a href="'+href(cur-1)+'">Back: '+esc(cur-1?"Week "+(cur-1):"Start here")+'</a>':"")+(cur<W.length-1?'<a class="next" href="'+href(cur+1)+'">Next: Week '+(cur+1)+'</a>':"")+'</nav>';
+return '<main class="band" id="main"><div class="wk"><p class="wn">'+(cur?"Week "+cur+" of 10":"Before you start")+'</p><h2>'+esc(wk.t)+'</h2><p class="goal">'+esc(wk.goal)+'</p><dl class="facts"><div><dt>Time</dt><dd>'+esc(wk.hours)+'</dd></div>'+(wk.proj?'<div><dt>Friday project</dt><dd>'+esc(wk.proj)+'</dd></div>':"")+'<div><dt>Progress</dt><dd>'+wd+' of '+wt+' tasks</dd></div></dl><div class="bar"><i style="width:'+pct+'%"></i></div><div class="acts">'+reset+'</div>'+topics+chk+pn+'</div></main>'}
+function foot(){
+const all=ask==="all"?'<span>Untick every task in the whole course?</span><button class="btn hot" data-act="yesall">Yes, reset everything</button><button class="btn" data-act="no">Cancel</button>':'<button class="btn" data-act="askall">Reset whole course</button>';
+let mv='<button class="btn" data-act="copy">Copy my progress</button><button class="btn" data-act="paste">Paste progress from another device</button>';
+if(move==="copy")mv='<label class="mvl" for="mvout">Your progress code. Copy it, then paste it on the other device.</label><textarea id="mvout" class="mvt" readonly rows="3">'+esc(code())+'</textarea><button class="btn" data-act="no">Done</button>';
+if(move==="paste")mv='<label class="mvl" for="mvin">Paste a progress code. This replaces the progress on this device.</label><textarea id="mvin" class="mvt" rows="3"></textarea><button class="btn hot" data-act="load">Load progress</button><button class="btn" data-act="no">Cancel</button>';
+return '<footer class="band foot"><div class="wrap"><p>Tasks marked With a parent need your parent nearby, because Claude accounts are for adults. Resetting a task keeps a count of how many times you have done it. Progress lives in this browser, so clearing browsing data erases it.</p><div class="acts">'+all+'</div></div><div class="wrap mv"><div class="acts">'+mv+'</div>'+(moveMsg?'<p class="mvm" role="status">'+esc(moveMsg)+'</p>':"")+'</div></footer>'}
+function code(){try{return btoa(unescape(encodeURIComponent(JSON.stringify(S))))}catch(e){return ""}}
+function loadCode(txt){try{const j=JSON.parse(decodeURIComponent(escape(atob(txt.trim()))));if(!j||typeof j.done!=="object"||typeof j.count!=="object")return false;S={done:j.done||{},count:j.count||{}};return true}catch(e){return false}}
+const app=document.getElementById("app");
+function render(focusId){
+app.innerHTML=head()+week()+foot();
+if(focusId){const f=document.getElementById(focusId);if(f)f.focus({preventScroll:true})}
+const tr=document.getElementById("trail"),on=tr&&tr.querySelector(".on");if(on)tr.scrollLeft=on.parentNode.offsetLeft-tr.clientWidth/2+on.parentNode.offsetWidth/2}
+function setSave(m){saveMsg=m;const s=document.getElementById("save");if(s)s.textContent=m}
+function save(){
+try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){setSave("Couldn't save in this browser. Use Copy my progress so you don't lose it.")}}
+app.addEventListener("change",e=>{const k=e.target.dataset&&e.target.dataset.k;if(!k)return;if(e.target.checked){S.done[k]=1;S.count[k]=(S.count[k]||0)+1}else delete S.done[k];ask=null;save();render("c"+k)});
+app.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+if(b.dataset.reset){delete S.done[b.dataset.reset];save();render("c"+b.dataset.reset);return}
+const a=b.dataset.act;
+if(a==="askweek"){ask="week";render();return}
+if(a==="askall"){ask="all";render();return}
+if(a==="no"){ask=null;move=null;moveMsg="";render();return}
+if(a==="copy"){move="copy";moveMsg="";render();const t=document.getElementById("mvout");if(t){t.focus();t.select()}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code()).then(()=>{moveMsg="Copied to the clipboard.";render()}).catch(()=>{moveMsg="Select the code above and copy it.";render()})}return}
+if(a==="paste"){move="paste";moveMsg="";render("mvin");return}
+if(a==="load"){const t=document.getElementById("mvin");if(t&&loadCode(t.value)){save();move=null;moveMsg="Progress loaded.";const n=ALL.findIndex(x=>x.some(k=>!S.done[k]));cur=n<0?W.length-1:n;render()}else{moveMsg="That code didn't work. Check you copied all of it.";const v=t?t.value:"";render();const t2=document.getElementById("mvin");if(t2){t2.value=v;t2.focus()}}return}
+if(a==="yesweek"){ALL[cur].forEach(k=>delete S.done[k]);ask=null;save();render();return}
+if(a==="yesall"){S.done={};ask=null;save();render();return}});
+window.addEventListener("hashchange",()=>{const n=parse();if(n===null)return;cur=n;ask=null;render();const m=document.getElementById("main");if(m)window.scrollTo(0,Math.max(0,m.offsetTop-8))});
+render();
+}
+</script>
+</body>
+</html>
